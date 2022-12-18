@@ -4,7 +4,6 @@ const UserModel = require('../models/user');
 const _ = require('lodash');
 
 const verify = async (jwt_payload, done) => {
-  console.log(jwt_payload);
   let user = await UserModel.findOne({ _id: jwt_payload.id });
 
   if (!_.isEmpty(user)) {
@@ -14,19 +13,11 @@ const verify = async (jwt_payload, done) => {
   }
 };
 
-const tokenExtractor = (req) => {
-  console.log(req);
-}
-
 exports.init = (passport) => {
   let opt = {
   };
-  // opt.jwtFromRequest =  ExtractJWT.fromAuthHeaderAsBearerToken();
-  opt.jwtFromRequest =  ExtractJWT.fromExtractors([ExtractJWT.fromAuthHeaderAsBearerToken(), tokenExtractor]);
+  opt.jwtFromRequest =  ExtractJWT.fromAuthHeaderAsBearerToken();
   opt. secretOrKey = process.env.JWT_SECRET_KEY;
-
-  console.log('opt');
-  console.log(opt);
 
   try {
     passport.use(new JWTStrategy(opt, verify));
