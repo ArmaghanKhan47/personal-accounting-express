@@ -3,7 +3,10 @@ const passport = require('passport');
 
 exports.init = () => {
   router.get('/', passport.authenticate('jwt', {session: false}),function(req, res, next) {
-    res.send('passport jwt token authentication successful');
+    let { username } = req.user;
+    res.json({
+      username
+    });
   });
 
   this.app.use('/user', router);
