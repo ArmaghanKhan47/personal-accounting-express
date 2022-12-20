@@ -11,13 +11,13 @@ const UserSchema = new Schema({
   password: String,
 });
 
-// UserSchema.pre('save', function(next){
+UserSchema.pre('save', function(next){
 
-//   bcrypt.hash(this.password, 5).then((hash) => {
-//     this.password = hash;
-//     next();
-//   });
-// })
+  bcrypt.hash(this.password, 5).then((hash) => {
+    this.password = hash;
+    next();
+  });
+})
 
 module.exports = mongoose.model('User', UserSchema);
 
